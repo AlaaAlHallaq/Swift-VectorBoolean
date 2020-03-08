@@ -16,32 +16,32 @@ import UIKit
 ///
 /// The main piece of data is the intersection, but it also holds a pointer to the
 /// crossing's counterpart in the other FBBezierGraph
-class FBEdgeCrossing {
+public class FBEdgeCrossing {
 
   fileprivate var _intersection: FBBezierIntersection
 
-  var edge: FBBezierCurve?
-  var counterpart: FBEdgeCrossing?
-  var fromCrossingOverlap = false
-  var entry = false
-  var processed = false
-  var selfCrossing = false
-  var index: Int = 0
+  public var edge: FBBezierCurve?
+  public var counterpart: FBEdgeCrossing?
+  public var fromCrossingOverlap = false
+  public var entry = false
+  public var processed = false
+  public var selfCrossing = false
+  public var index: Int = 0
 
   //+ (id) crossingWithIntersection:(FBBezierIntersection *)intersection
-  init(intersection: FBBezierIntersection) {
+  public init(intersection: FBBezierIntersection) {
     _intersection = intersection
   }
 
-  var isProcessed : Bool {
+  public var isProcessed : Bool {
     return processed
   }
 
-  var isSelfCrossing : Bool {
+  public var isSelfCrossing : Bool {
     return selfCrossing
   }
 
-  var isEntry : Bool {
+  public var isEntry : Bool {
     return entry
   }
 
@@ -79,19 +79,19 @@ class FBEdgeCrossing {
 
 
   //- (void) removeFromEdge
-  func removeFromEdge() {
+  public func removeFromEdge() {
     if let edge = edge {
       edge.removeCrossing(self)
     }
   }
 
   //- (CGFloat) order
-  var order : Double {
+  public var order : Double {
     return parameter
   }
 
   //- (FBEdgeCrossing *) next
-  var next : FBEdgeCrossing? {
+  public var next : FBEdgeCrossing? {
     if let edge = edge {
       return edge.nextCrossing(self)
     } else {
@@ -100,7 +100,7 @@ class FBEdgeCrossing {
   }
 
   //- (FBEdgeCrossing *) previous
-  var previous : FBEdgeCrossing? {
+  public var previous : FBEdgeCrossing? {
     if let edge = edge {
       return edge.previousCrossing(self)
     } else {
@@ -109,7 +109,7 @@ class FBEdgeCrossing {
   }
 
   //- (FBEdgeCrossing *) nextNonself
-  var nextNonself : FBEdgeCrossing? {
+  public var nextNonself : FBEdgeCrossing? {
     var nextNon : FBEdgeCrossing? = next
     while nextNon != nil && nextNon!.isSelfCrossing {
       nextNon = nextNon!.next
@@ -118,7 +118,7 @@ class FBEdgeCrossing {
   }
 
   //- (FBEdgeCrossing *) previousNonself
-  var previousNonself : FBEdgeCrossing? {
+  public var previousNonself : FBEdgeCrossing? {
     var prevNon : FBEdgeCrossing? = previous
     while prevNon != nil && prevNon!.isSelfCrossing {
       prevNon = prevNon!.previous
@@ -130,7 +130,7 @@ class FBEdgeCrossing {
   // These properties pass through to the underlying intersection
 
   //- (CGFloat) parameter
-  var parameter : Double {
+  public var parameter : Double {
     // TODO: Is this actually working? Check equality operator here!
     if edge == _intersection.curve1 {
       return _intersection.parameter1
@@ -140,17 +140,17 @@ class FBEdgeCrossing {
   }
 
   //- (NSPoint) location
-  var location : CGPoint {
+  public var location : CGPoint {
     return _intersection.location
   }
 
   //- (FBBezierCurve *) curve
-  var curve : FBBezierCurve? {
+  public var curve : FBBezierCurve? {
     return edge
   }
 
   //- (FBBezierCurve *) leftCurve
-  var leftCurve : FBBezierCurve? {
+  public var leftCurve : FBBezierCurve? {
     if isAtStart {
       return nil
     }
@@ -163,7 +163,7 @@ class FBEdgeCrossing {
   }
 
   //- (FBBezierCurve *) rightCurve
-  var rightCurve : FBBezierCurve? {
+  public var rightCurve : FBBezierCurve? {
     if isAtEnd {
       return nil
     }
@@ -176,7 +176,7 @@ class FBEdgeCrossing {
   }
 
   //- (BOOL) isAtStart
-  var isAtStart : Bool {
+  public var isAtStart : Bool {
     if edge == _intersection.curve1 {
       return _intersection.isAtStartOfCurve1
     } else {
@@ -185,7 +185,7 @@ class FBEdgeCrossing {
   }
 
   //- (BOOL) isAtEnd
-  var isAtEnd : Bool {
+  public var isAtEnd : Bool {
     if edge == _intersection.curve1 {
       return _intersection.isAtStopOfCurve1
     } else {

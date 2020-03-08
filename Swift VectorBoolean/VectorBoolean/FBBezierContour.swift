@@ -11,7 +11,7 @@
 
 import UIKit
 
-enum FBContourInside {
+public enum FBContourInside {
   case filled
   case hole
 }
@@ -20,9 +20,9 @@ enum FBContourInside {
 /// FBBezierContour represents a closed path of bezier curves (aka edges).
 ///
 /// Contours can be filled or represent a hole in another contour.
-class FBBezierContour {
+public class FBBezierContour {
 
-  enum FBContourDirection
+  public enum FBContourDirection
   {
     case clockwise
     case antiClockwise
@@ -38,7 +38,7 @@ class FBBezierContour {
 
 
   //@property FBContourInside inside;
-  var inside : FBContourInside {
+  public var inside : FBContourInside {
     get {
       return _inside
     }
@@ -53,11 +53,11 @@ class FBBezierContour {
     return _overlaps
   }
 
-  var edges : [FBBezierCurve] {
+  public var edges : [FBBezierCurve] {
     return _edges
   }
 
-  init() {
+  public init() {
     self._edges = []
     self._overlaps = []
     self._bounds = CGRect.null
@@ -65,7 +65,7 @@ class FBBezierContour {
     self._inside = .filled
   }
 
-  class func bezierContourWithCurve(_ curve: FBBezierCurve) -> FBBezierContour {
+  public class func bezierContourWithCurve(_ curve: FBBezierCurve) -> FBBezierContour {
     let result = FBBezierContour()
     result.addCurve(curve)
     return result
@@ -84,7 +84,7 @@ class FBBezierContour {
 
   // 72
   //- (void) addCurve:(FBBezierCurve *)curve
-  func addCurve(_ curve: FBBezierCurve?) {
+  public func addCurve(_ curve: FBBezierCurve?) {
     // Add the curve by wrapping it in an edge
     if let curve = curve {
       curve.contour = self;
@@ -99,7 +99,7 @@ class FBBezierContour {
 
   // 86
   //- (void) addCurveFrom:(FBEdgeCrossing *)startCrossing to:(FBEdgeCrossing *)endCrossing
-  func addCurveFrom(_ startCrossing: FBEdgeCrossing?, to endCrossing: FBEdgeCrossing?) {
+  public func addCurveFrom(_ startCrossing: FBEdgeCrossing?, to endCrossing: FBEdgeCrossing?) {
     // First construct the curve that we're going to add,
     // by seeing which crossing is nil.
     // If the crossing isn't given go to the end of the edge on that side.
@@ -124,7 +124,7 @@ class FBBezierContour {
 
   // 104
   //- (void) addReverseCurve:(FBBezierCurve *)curve
-  func addReverseCurve(_ curve: FBBezierCurve?) {
+  public func addReverseCurve(_ curve: FBBezierCurve?) {
     // Just reverse the points on the curve.
     // Need to do this to ensure the end point from one edge
     // matches the start on the next edge.
@@ -136,7 +136,7 @@ class FBBezierContour {
 
   // 114
   //- (void) addReverseCurveFrom:(FBEdgeCrossing *)startCrossing to:(FBEdgeCrossing *)endCrossing
-  func addReverseCurveFrom(_ startCrossing: FBEdgeCrossing?, to endCrossing: FBEdgeCrossing?) {
+  public func addReverseCurveFrom(_ startCrossing: FBEdgeCrossing?, to endCrossing: FBEdgeCrossing?) {
     // First construct the curve that we're going to add,
     // by seeing which crossing is nil.
     // If the crossing isn't given go to the end of the edge on that side.
@@ -161,7 +161,7 @@ class FBBezierContour {
 
   // 132
   //- (NSRect) bounds
-  var bounds : CGRect {
+  public var bounds : CGRect {
     // Cache the bounds to save time
     if !_bounds.equalTo(CGRect.null) {
       return _bounds
@@ -192,7 +192,7 @@ class FBBezierContour {
 
   // 156
   //- (NSRect) boundingRect
-  var boundingRect : CGRect {
+  public var boundingRect : CGRect {
     // Cache the boundingRect to save time
     if !_boundingRect.equalTo(CGRect.null) {
       return _boundingRect
@@ -223,7 +223,7 @@ class FBBezierContour {
 
   // 180
   //- (NSPoint) firstPoint
-  var firstPoint : CGPoint {
+  public var firstPoint : CGPoint {
     if _edges.count == 0 {
       return CGPoint.zero
     }
@@ -233,7 +233,7 @@ class FBBezierContour {
 
   // 189
   //- (BOOL) containsPoint:(NSPoint)testPoint
-  func containsPoint(_ testPoint: CGPoint) -> Bool {
+  public func containsPoint(_ testPoint: CGPoint) -> Bool {
 
     if !boundingRect.contains(testPoint) || !bounds.contains(testPoint) {
       return false
@@ -257,7 +257,7 @@ class FBBezierContour {
 
   // 204
   //- (NSUInteger) numberOfIntersectionsWithRay:(FBBezierCurve *)testEdge
-  func numberOfIntersectionsWithRay(_ testEdge: FBBezierCurve) -> Int {
+  public func numberOfIntersectionsWithRay(_ testEdge: FBBezierCurve) -> Int {
     var count = 0
     intersectionsWithRay(testEdge, withBlock: {
       (intersection: FBBezierIntersection)-> Void in
@@ -269,7 +269,7 @@ class FBBezierContour {
 
   // 213
   //- (void) intersectionsWithRay:(FBBezierCurve *)testEdge withBlock:(void (^)(FBBezierIntersection *intersection))block
-  func intersectionsWithRay(_ testEdge: FBBezierCurve, withBlock block:@escaping (_ intersection: FBBezierIntersection) -> Void) {
+  public func intersectionsWithRay(_ testEdge: FBBezierCurve, withBlock block:@escaping (_ intersection: FBBezierIntersection) -> Void) {
 
     var firstIntersection : FBBezierIntersection?
     var previousIntersection : FBBezierIntersection?
@@ -344,7 +344,7 @@ class FBBezierContour {
 
   // 269
   //- (NSPoint) testPointForContainment
-  var testPointForContainment : CGPoint {
+  public var testPointForContainment : CGPoint {
     // Start with the startEdge, and if it's not shared (overlapping)
     // then use its first point
     if var testEdge = self.startEdge {
@@ -372,7 +372,7 @@ class FBBezierContour {
 
   // 289
   //- (void) startingEdge:(FBBezierCurve **)outEdge parameter:(CGFloat *)outParameter point:(NSPoint *)outPoint
-  func startingEdge() -> (edge: FBBezierCurve, parameter: Double, point: CGPoint) {
+  public func startingEdge() -> (edge: FBBezierCurve, parameter: Double, point: CGPoint) {
     // Start with the startEdge, and if it's not shared (overlapping)
     // then use its first point
     var testEdge = startEdge!
@@ -400,7 +400,7 @@ class FBBezierContour {
 
   // 315
   //- (void) markCrossingsAsEntryOrExitWithContour:(FBBezierContour *)otherContour markInside:(BOOL)markInside
-  func markCrossingsAsEntryOrExitWithContour(_ otherContour: FBBezierContour, markInside: Bool) {
+  public func markCrossingsAsEntryOrExitWithContour(_ otherContour: FBBezierContour, markInside: Bool) {
     // Go through and mark all the crossings with the given
     // contour as "entry" or "exit".
     // This determines what part of ths contour is output.
@@ -437,7 +437,7 @@ class FBBezierContour {
   // 347
   //- (BOOL) markCrossingsOnEdge:(FBBezierCurve *)edge startParameter:(CGFloat)startParameter stopParameter:(CGFloat)stopParameter otherContours:(NSArray *)otherContours isEntry:(BOOL)startIsEntry
   @discardableResult
-  func markCrossingsOnEdge(_ edge: FBBezierCurve, startParameter: Double, stopParameter: Double, otherContours: [FBBezierContour] , startIsEntry: Bool) -> Bool {
+  public func markCrossingsOnEdge(_ edge: FBBezierCurve, startParameter: Double, stopParameter: Double, otherContours: [FBBezierContour] , startIsEntry: Bool) -> Bool {
 
     var isEntry = startIsEntry
 
@@ -492,7 +492,7 @@ class FBBezierContour {
 
   // 376
   //- (NSBezierPath*) bezierPath		// GPC: added
-  var bezierPath : UIBezierPath {
+  public var bezierPath : UIBezierPath {
     if _bezPathCache == nil {
       let path = UIBezierPath()
       var firstPoint = true
@@ -524,7 +524,7 @@ class FBBezierContour {
 
   // 403
   //- (void) close
-  func close() {
+  public func close() {
     // adds an element to connect first and last points on the contour
     if _edges.count == 0 {
       return
@@ -541,7 +541,7 @@ class FBBezierContour {
 
   // 417
   //- (FBBezierContour*) reversedContour	// GPC: added
-  var reversedContour : FBBezierContour {
+  public var reversedContour : FBBezierContour {
     let revContour = FBBezierContour()
 
     for edge in _edges {
@@ -554,7 +554,7 @@ class FBBezierContour {
 
   // 428
   //- (FBContourDirection) direction
-  var direction : FBContourDirection {
+  public var direction : FBContourDirection {
 
     var lastPoint = CGPoint.zero, currentPoint = CGPoint.zero
     var firstPoint = true
@@ -577,7 +577,7 @@ class FBBezierContour {
 
   // 449
   //- (FBBezierContour *) contourMadeClockwiseIfNecessary
-  var contourMadeClockwiseIfNecessary : FBBezierContour {
+  public var contourMadeClockwiseIfNecessary : FBBezierContour {
     let dir = self.direction
 
     if dir == FBContourDirection.clockwise {
@@ -590,7 +590,7 @@ class FBBezierContour {
 
   // 459
   //- (BOOL) crossesOwnContour:(FBBezierContour *)contour
-  func crossesOwnContour(_ contour: FBBezierContour) -> Bool {
+  public func crossesOwnContour(_ contour: FBBezierContour) -> Bool {
     for edge in _edges {
       var intersects = false
 
@@ -618,7 +618,7 @@ class FBBezierContour {
   // 478
   //@property (readonly) NSArray *intersectingContours;
   //- (NSArray *) intersectingContours
-  var intersectingContours : [FBBezierContour] {
+  public var intersectingContours : [FBBezierContour] {
     // Go and find all the unique contours that intersect this specific contour
     var iContours : [FBBezierContour] = []
     for edge in _edges {
@@ -638,7 +638,7 @@ class FBBezierContour {
 
   // 491
   //- (NSArray *) selfIntersectingContours
-  var selfIntersectingContours : [FBBezierContour] {
+  public var selfIntersectingContours : [FBBezierContour] {
     // Go and find all the unique contours that intersect
     // this specific contour from our own graph
     var siContours : [FBBezierContour] = []
@@ -667,7 +667,7 @@ class FBBezierContour {
 
   // 511
   //- (void) addOverlap:(FBContourOverlap *)overlap
-  func addOverlap(_ overlap: FBContourOverlap) {
+  public func addOverlap(_ overlap: FBContourOverlap) {
     if _overlaps.count == 0 {
       return
     }
@@ -678,7 +678,7 @@ class FBBezierContour {
 
   // 519
   //- (void) removeAllOverlaps
-  func removeAllOverlaps() {
+  public func removeAllOverlaps() {
     if _overlaps.count == 0 {
       return
     }
@@ -689,7 +689,7 @@ class FBBezierContour {
 
   // 527
   //- (BOOL) isEquivalent:(FBBezierContour *)other
-  func isEquivalent(_ other: FBBezierContour) -> Bool {
+  public func isEquivalent(_ other: FBBezierContour) -> Bool {
     if _overlaps.count == 0 {
       return false
     }
@@ -722,7 +722,7 @@ class FBBezierContour {
 
   // 552
   //- (BOOL) doesOverlapContainCrossing:(FBEdgeCrossing *)crossing
-  func doesOverlapContainCrossing(_ crossing: FBEdgeCrossing) -> Bool {
+  public func doesOverlapContainCrossing(_ crossing: FBEdgeCrossing) -> Bool {
     if _overlaps.count == 0 {
       return false
     }
@@ -737,7 +737,7 @@ class FBBezierContour {
 
   // 564
   //- (BOOL) doesOverlapContainParameter:(CGFloat)parameter onEdge:(FBBezierCurve *)edge
-  func doesOverlapContainParameter(_ parameter: Double, onEdge edge: FBBezierCurve) -> Bool {
+  public func doesOverlapContainParameter(_ parameter: Double, onEdge edge: FBBezierCurve) -> Bool {
     if _overlaps.count > 0 {
       for overlap in _overlaps {
         if overlap.doesContainParameter(parameter, onEdge:edge) {
@@ -750,7 +750,7 @@ class FBBezierContour {
 
   // 584
   //- (FBCurveLocation *) closestLocationToPoint:(NSPoint)point
-  func closestLocationToPoint(_ point: CGPoint) -> FBCurveLocation? {
+  public func closestLocationToPoint(_ point: CGPoint) -> FBCurveLocation? {
     var closestEdge : FBBezierCurve? = nil
     var location = FBBezierCurveLocation(parameter: 0.0, distance: 0.0)
 
@@ -779,7 +779,7 @@ class FBBezierContour {
   /// This allows the internal state of a contour to be
   /// rapidly visualized so that bugs with boolean ops
   /// are easier to spot at a glance.
-  func debugPathForIntersectionType(_ itersectionType: Int) -> UIBezierPath {
+  public func debugPathForIntersectionType(_ itersectionType: Int) -> UIBezierPath {
 
     let path : UIBezierPath = UIBezierPath()
 

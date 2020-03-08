@@ -26,42 +26,58 @@
 
 import UIKit
 
-class FBBezierGraph {
+public class FBBezierGraph {
 
   fileprivate var _bounds : CGRect
   fileprivate var _contours : [FBBezierContour]
 
-  var contours : [FBBezierContour] {
+  public var contours : [FBBezierContour] {
     get {
       return _contours
     }
   }
 
-  init() {
+  public init() {
     _contours = []
     _bounds = CGRect.null
   }
 
-  init(path: UIBezierPath) {
-    _contours = []
-    _bounds = CGRect.null
-    _ = initWithBezierPath(path)
-  }
+  public init(path: UIBezierPath) {
+      _contours = []
+      _bounds = CGRect.null
+      _ = initWithBezierPath(path)
+    }
+    
+    public init(path: CGPath) {
+      _contours = []
+      _bounds = CGRect.null
+      _ = initWithBezierPath(path)
+    }
 
-  class func bezierGraphWithBezierPath(_ path: UIBezierPath!) -> AnyObject {
+  public class func bezierGraphWithBezierPath(_ path: UIBezierPath!) -> FBBezierGraph {
     return FBBezierGraph().initWithBezierPath(path)
   }
+    
+   private func initWithBezierPath(_ path: CGPath!) -> FBBezierGraph {
+        
+        let bezier = LRTBezierCGPathWrapper(path)
+        return initWith(bezier)
+    }
+    //- (id) initWithBezierPath:(NSBezierPath *)path
+   private func initWithBezierPath(_ path: UIBezierPath!) -> FBBezierGraph {
+      // A bezier graph is made up of contours, which are closed paths of curves. Anytime we
+      //  see a move to in the UIBezierPath, that's a new contour.
 
-  //- (id) initWithBezierPath:(NSBezierPath *)path
-  func initWithBezierPath(_ path: UIBezierPath!) -> FBBezierGraph {
-    // A bezier graph is made up of contours, which are closed paths of curves. Anytime we
-    //  see a move to in the UIBezierPath, that's a new contour.
-
-    var lastPoint : CGPoint = CGPoint.zero
-    var wasClosed = false
-
-    var contour : FBBezierContour?
-    let bezier = LRTBezierPathWrapper(path)
+        let bezier = LRTBezierPathWrapper(path)
+        return initWith(bezier)
+    }
+    private func initWith(_ bezier: IPathWrapper) -> FBBezierGraph {
+        
+        
+        var lastPoint : CGPoint = CGPoint.zero
+        var wasClosed = false
+        
+        var contour : FBBezierContour?
 
     // This is done in a completely different way than was used for NSBezierPath
 
@@ -179,7 +195,7 @@ class FBBezierGraph {
 
   // 218
   //- (FBBezierGraph *) unionWithBezierGraph:(FBBezierGraph *)graph
-  func unionWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph! {
+  public func unionWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
     // First insert FBEdgeCrossings into both graphs where the graphs
     //  cross.
     insertCrossingsWithBezierGraph(graph)
@@ -320,7 +336,7 @@ class FBBezierGraph {
 
   // 306
   //- (FBBezierGraph *) intersectWithBezierGraph:(FBBezierGraph *)graph
-  func intersectWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
+  public func intersectWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
 
     // First insert FBEdgeCrossings into both graphs where the graphs cross.
     insertCrossingsWithBezierGraph(graph)
@@ -426,7 +442,7 @@ class FBBezierGraph {
 
   // 398
   //- (FBBezierGraph *) differenceWithBezierGraph:(FBBezierGraph *)graph
-  func differenceWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
+  public func differenceWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
 
     // First insert FBEdgeCrossings into both graphs where the graphs cross.
     insertCrossingsWithBezierGraph(graph)
@@ -548,7 +564,7 @@ class FBBezierGraph {
 
   // 499
   //- (FBBezierGraph *) xorWithBezierGraph:(FBBezierGraph *)graph
-  func xorWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
+  public func xorWithBezierGraph(_ graph: FBBezierGraph) -> FBBezierGraph {
     // XOR is done by combing union (OR), intersect (AND) and difference.
     //
     // Specifically we compute the union of the two graphs and the intersect of them,
@@ -596,7 +612,7 @@ class FBBezierGraph {
 
   // 544
   //- (NSBezierPath *) bezierPath
-  var bezierPath : UIBezierPath {
+  public var bezierPath : UIBezierPath {
     // Convert this graph into a bezier path. This is straightforward, each contour
     //  starting with a move to and each subsequent edge being translated by doing
     //  a curve to.
@@ -871,7 +887,7 @@ class FBBezierGraph {
 
   // 750
   //- (NSRect) bounds
-  var bounds : CGRect {
+  public var bounds : CGRect {
 
     // Compute the bounds of the graph by unioning together
     // the bounds of the individual contours
@@ -941,7 +957,7 @@ class FBBezierGraph {
 
   // 791
   //- (FBCurveLocation *) closestLocationToPoint:(NSPoint)point
-  func closestLocationToPoint(_ point: CGPoint) -> FBCurveLocation? {
+  public func closestLocationToPoint(_ point: CGPoint) -> FBCurveLocation? {
     var closestLocation : FBCurveLocation? = nil
 
     for contour in _contours {

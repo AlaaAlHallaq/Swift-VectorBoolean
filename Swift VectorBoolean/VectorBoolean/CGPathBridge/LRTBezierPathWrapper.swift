@@ -7,8 +7,37 @@
 //
 
 import UIKit
+protocol IPathWrapper {
+    var elements: [PathElement] { get }
+}
+public class LRTBezierCGPathWrapper: IPathWrapper {
+    
+    private(set) public var elements: [PathElement]
+    fileprivate var _bezierPath : CGPath
+    
 
-public class LRTBezierPathWrapper {
+    var bezierPath : CGPath {
+      get {
+        return _bezierPath
+      }
+    }
+    
+    public init(_ bezierPath:CGPath) {
+        elements = []
+        _bezierPath = bezierPath
+        createElementsFromCGPath()
+    }
+    
+    func createElementsFromCGPath() {
+        let cgPath = _bezierPath
+        
+        cgPath.apply({
+            (e : PathElement) -> Void in
+            self.elements.append(e)
+        })
+    }
+}
+public class LRTBezierPathWrapper: IPathWrapper {
 
     private(set) public var elements: [PathElement]
   fileprivate var _bezierPath : UIBezierPath

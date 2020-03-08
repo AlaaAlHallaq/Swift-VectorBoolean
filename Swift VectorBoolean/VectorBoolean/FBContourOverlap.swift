@@ -11,7 +11,7 @@
 
 import UIKit
 
-class FBContourOverlap {
+public class FBContourOverlap {
 
   fileprivate var runs : [FBEdgeOverlapRun] = []
 
@@ -35,7 +35,7 @@ class FBContourOverlap {
 
 
   //- (void) addOverlap:(FBBezierIntersectRange *)range forEdge1:(FBBezierCurve *)edge1 edge2:(FBBezierCurve *)edge2
-  func addOverlap(_ range: FBBezierIntersectRange, forEdge1 edge1: FBBezierCurve, edge2: FBBezierCurve) {
+  public func addOverlap(_ range: FBBezierIntersectRange, forEdge1 edge1: FBBezierCurve, edge2: FBBezierCurve) {
     let overlap = FBEdgeOverlap(range: range, edge1: edge1, edge2: edge2)
 
     var createNewRun = false
@@ -61,7 +61,7 @@ class FBContourOverlap {
   }
 
   //- (BOOL) doesContainCrossing:(FBEdgeCrossing *)crossing
-  func doesContainCrossing(_ crossing: FBEdgeCrossing) -> Bool {
+  public func doesContainCrossing(_ crossing: FBEdgeCrossing) -> Bool {
     if runs.count == 0 {
       return false
     }
@@ -76,7 +76,7 @@ class FBContourOverlap {
   }
 
   //- (BOOL) doesContainParameter:(CGFloat)parameter onEdge:(FBBezierCurve *)edge
-  func doesContainParameter(_ parameter: Double, onEdge edge: FBBezierCurve) -> Bool {
+  public func doesContainParameter(_ parameter: Double, onEdge edge: FBBezierCurve) -> Bool {
     if runs.count == 0 {
       return false
     }
@@ -91,7 +91,7 @@ class FBContourOverlap {
   }
 
   //- (void) runsWithBlock:(void (^)(FBEdgeOverlapRun *run, BOOL *stop))block
-  func runsWithBlock(_ block: (_ run: FBEdgeOverlapRun) -> Bool)
+  public func runsWithBlock(_ block: (_ run: FBEdgeOverlapRun) -> Bool)
   {
     if runs.count == 0 {
       return
@@ -106,7 +106,7 @@ class FBContourOverlap {
   }
 
   //- (void) reset
-  func reset() {
+  public func reset() {
     if runs.count == 0 {
       return
     }
@@ -114,7 +114,7 @@ class FBContourOverlap {
   }
 
   //- (BOOL) isComplete
-  var isComplete : Bool {
+  public var isComplete : Bool {
     if runs.count == 0 {
       return false
     }
@@ -128,13 +128,13 @@ class FBContourOverlap {
   }
 
   //- (BOOL) isEmpty
-  var isEmpty : Bool {
+  public var isEmpty : Bool {
     return runs.count == 0
   }
 
   //@property (readonly) FBBezierContour *contour1;
   //- (FBBezierContour *) contour1
-  var contour1: FBBezierContour? {
+  public var contour1: FBBezierContour? {
 
     if runs.count == 0 {
       return nil
@@ -146,7 +146,7 @@ class FBContourOverlap {
 
   //@property (readonly) FBBezierContour *contour2;
   //- (FBBezierContour *) contour2
-  var contour2: FBBezierContour? {
+  public var contour2: FBBezierContour? {
 
     if runs.count == 0 {
       return nil
@@ -158,7 +158,7 @@ class FBContourOverlap {
 
 
   //- (BOOL) isBetweenContour:(FBBezierContour *)contour1 andContour:(FBBezierContour *)contour2
-  func isBetweenContour(_ contour1: FBBezierContour, andContour contour2: FBBezierContour) -> Bool {
+  public func isBetweenContour(_ contour1: FBBezierContour, andContour contour2: FBBezierContour) -> Bool {
     let myContour1 = self.contour1
     let myContour2 = self.contour2
 

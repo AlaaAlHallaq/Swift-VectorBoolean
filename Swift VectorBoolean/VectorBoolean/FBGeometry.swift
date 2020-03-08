@@ -481,12 +481,12 @@ func FBRangeUnion(_ range1: FBRange, range2: FBRange) -> FBRange {
 // ===================================
 
 
-struct FBTangentPair {
-  var left: CGPoint
-  var right: CGPoint
+public struct FBTangentPair {
+  public var left: CGPoint
+  public var right: CGPoint
 }
 
-func FBAreTangentsAmbigious(_ edge1Tangents: FBTangentPair, edge2Tangents: FBTangentPair) -> Bool {
+public func FBAreTangentsAmbigious(_ edge1Tangents: FBTangentPair, edge2Tangents: FBTangentPair) -> Bool {
 
   let normalEdge1 = FBTangentPair(left: FBNormalizePoint(edge1Tangents.left), right: FBNormalizePoint(edge1Tangents.right))
   let normalEdge2 = FBTangentPair(left: FBNormalizePoint(edge2Tangents.left), right: FBNormalizePoint(edge2Tangents.right))
@@ -498,12 +498,12 @@ func FBAreTangentsAmbigious(_ edge1Tangents: FBTangentPair, edge2Tangents: FBTan
 }
 
 
-struct FBAnglePair {
-  var a: Double
-  var b: Double
+public struct FBAnglePair {
+  public var a: Double
+  public var b: Double
 }
 
-func FBTangentsCross(_ edge1Tangents: FBTangentPair, edge2Tangents: FBTangentPair) -> Bool {
+public func FBTangentsCross(_ edge1Tangents: FBTangentPair, edge2Tangents: FBTangentPair) -> Bool {
 
   // Calculate angles for the tangents
   let edge1Angles = FBAnglePair(a: PolarAngle(edge1Tangents.left), b: PolarAngle(edge1Tangents.right))
@@ -538,7 +538,7 @@ func FBTangentsCross(_ edge1Tangents: FBTangentPair, edge2Tangents: FBTangentPai
 }
 
 
-func FBLineBoundsMightOverlap(_ bounds1: CGRect, bounds2: CGRect) -> Bool
+public func FBLineBoundsMightOverlap(_ bounds1: CGRect, bounds2: CGRect) -> Bool
 {
   let left = Double(max(bounds1.minX, bounds2.minX))
   let right = Double(min(bounds1.maxX, bounds2.maxX))
